@@ -127,7 +127,7 @@ export class DriverStatus {
   }
 
   /**
-   * Rehydrates a DriverStatus instance from a persistence record.
+   * actualiza el estado del conductor.
    */
   public static fromPersistence(row: any): DriverStatus {
     const requiredFields = [
