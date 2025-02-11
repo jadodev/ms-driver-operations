@@ -1,5 +1,3 @@
-// src/application/services/UpdateAvailableCapacityService.ts
-
 import { IUpdateAvailableCapacityUseCase } from "../ports/in/IUpdateAvailableCapacityUseCase";
 import { UpdateAvailableCapacityDto } from "../dto/UpdateAvailableCapacityDto";
 import { DriverStatusDto } from "../dto/DriverStatusDto";
@@ -9,7 +7,7 @@ import { DriverStatusMapper } from "../mappers/DriverStatusMapper";
 import { EventPublisher } from "../../infrastructure/messaging/EventPublisher";
 
 /**
- * Service for updating the available capacity of a driver.
+ * Servicio para actualizar la capacidad disponible de un conductor.
  */
 export class UpdateAvailableCapacityService implements IUpdateAvailableCapacityUseCase {
   constructor(
