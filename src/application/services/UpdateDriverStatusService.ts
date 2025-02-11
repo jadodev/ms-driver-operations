@@ -1,5 +1,3 @@
-// src/application/services/UpdateDriverStatusService.ts
-
 import { IUpdateDriverStatusUseCase } from "../ports/in/IUpdateDriverStatusUseCase";
 import { UpdateDriverStatusDto } from "../dto/UpdateDriverStatusDto";
 import { DriverStatusDto } from "../dto/DriverStatusDto";

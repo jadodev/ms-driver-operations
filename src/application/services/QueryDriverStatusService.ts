@@ -1,5 +1,3 @@
-// src/application/services/QueryDriverStatusService.ts
-
 import { IQueryDriverStatusUseCase } from "../ports/in/IQueryDriverStatusUseCase";
 import { DriverStatusDto } from "../dto/DriverStatusDto";
 import { IDriverStatusRepository } from "../ports/out/IDriverStatusRepository";
