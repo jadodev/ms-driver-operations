@@ -5,14 +5,29 @@ import { QueryDriverStatusService } from '../../application/services/QueryDriver
 import { QueryDriverStatusByZoneService } from '../../application/services/QueryDriverStatusByZoneService';
 
 /**
- * Crea y configura un router Express para el microservicio Driver Operations Service.
- *
- * Endpoints:
- *  - GET /driver-status/health: Devuelve un mensaje de salud del servicio.
- *  - PATCH /driver-status/status: Actualiza la ubicación y el estado operativo (transport state) de un conductor.
- *  - PATCH /driver-status/capacity: Actualiza la capacidad disponible del conductor.
- *  - GET /driver-status/:driverId: Consulta el estado operativo de un conductor por su driverId.
- *
+ * @swagger
+ * tags:
+ *   name: DriverStatus
+ *   description: Endpoints para gestionar el estado y capacidad de los conductores.
+ */
+
+/**
+ * @swagger
+ * /driver-status/health:
+ *   get:
+ *     summary: Verifica el estado del servicio de Driver Operations
+ *     tags: [DriverStatus]
+ *     responses:
+ *       200:
+ *         description: El servicio está en funcionamiento.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: Driver Operations Service is running
  */
 export function createDriverStatusController(
   updateStatusService: UpdateDriverStatusService,
@@ -26,6 +41,36 @@ export function createDriverStatusController(
     res.json({ status: 'Driver Operations Service is running' });
   });
 
+  /**
+   * @swagger
+   * /driver-status/status:
+   *   patch:
+   *     summary: Actualiza la ubicación y estado operativo de un conductor.
+   *     tags: [DriverStatus]
+   *     requestBody:
+   *       description: Datos para actualizar el estado del conductor.
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               driverId:
+   *                 type: string
+   *               currentLocation:
+   *                 type: string
+   *               transportState:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Estado actualizado correctamente.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *     400:
+   *         description: Error al actualizar el estado.
+   */
   router.patch('/status', async (req: Request, res: Response) => {
     try {
       const dto = req.body;
@@ -37,6 +82,34 @@ export function createDriverStatusController(
     }
   });
 
+  /**
+   * @swagger
+   * /driver-status/capacity:
+   *   patch:
+   *     summary: Actualiza la capacidad disponible de un conductor.
+   *     tags: [DriverStatus]
+   *     requestBody:
+   *       description: Datos para actualizar la capacidad disponible.
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               driverId:
+   *                 type: string
+   *               availableCapacity:
+   *                 type: number
+   *     responses:
+   *       200:
+   *         description: Capacidad actualizada correctamente.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *       400:
+   *         description: Error al actualizar la capacidad.
+   */
   router.patch('/capacity', async (req: Request, res: Response) => {
     try {
       const dto = req.body;
@@ -48,6 +121,29 @@ export function createDriverStatusController(
     }
   });
 
+  /**
+   * @swagger
+   * /driver-status/{driverId}:
+   *   get:
+   *     summary: Consulta el estado operativo de un conductor por su driverId.
+   *     tags: [DriverStatus]
+   *     parameters:
+   *       - in: path
+   *         name: driverId
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Identificador del conductor.
+   *     responses:
+   *       200:
+   *         description: Estado del conductor obtenido correctamente.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *       404:
+   *         description: Conductor no encontrado.
+   */
   router.get('/:driverId', async (req: Request, res: Response) => {
     try {
       const driverId = req.params.driverId;
@@ -59,6 +155,31 @@ export function createDriverStatusController(
     }
   });
 
+  /**
+   * @swagger
+   * /driver-status/zone/{zone}:
+   *   get:
+   *     summary: Consulta los conductores por zona.
+   *     tags: [DriverStatus]
+   *     parameters:
+   *       - in: path
+   *         name: zone
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: Zona geográfica para la consulta.
+   *     responses:
+   *       200:
+   *         description: Lista de conductores en la zona.
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 type: object
+   *       400:
+   *         description: Error en la consulta por zona.
+   */
   router.get('/zone/:zone', async (req: Request, res: Response) => {
     try {
       const zone = req.params.zone;
